@@ -7,7 +7,7 @@ import streamlit as st
 from web_functions import load_data
 
 # Import pages
-from Tabs import home, data, predict, visualise
+from Tabs import home, data, predictTree, visualise , predictSVM ,predictKNN,predictRandomF,predictADB
 
 # Configure the app
 st.set_page_config(
@@ -21,7 +21,11 @@ st.set_page_config(
 Tabs = {
     "Home": home,
     "Data Info": data,
-    "Prediction": predict,
+    "Decision Tree Prediction": predictTree,
+    "SVM Prediction": predictSVM,
+    "KNN Prediction": predictKNN,
+    "Random Forest Prediction": predictRandomF,
+    "Ada-boost Prediction": predictADB,
     "Visualisation": visualise
     
 }
@@ -37,7 +41,7 @@ page = st.sidebar.radio("Pages", list(Tabs.keys()))
 df, X, y = load_data()
 
 # Call the app funciton of selected page to run
-if page in ["Prediction", "Visualisation"]:
+if page in ["Decision Tree Prediction", "Visualisation" , "SVM Prediction" , "KNN Prediction" , "Random Forest Prediction", "Ada-boost Prediction" ]:
     Tabs[page].app(df, X, y)
 elif (page == "Data Info"):
     Tabs[page].app(df)

@@ -5,7 +5,10 @@ import numpy as np
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 import streamlit as st
-
+from sklearn.svm import SVC
+from sklearn.preprocessing import StandardScaler
+from sklearn import metrics
+from sklearn.pipeline import make_pipeline
 
 @st.cache()
 def load_data():
@@ -45,10 +48,23 @@ def train_model(X, y):
     # Return the values
     return model, score
 
-def predict(X, y, features):
+def predictTree(X, y, features):
     # Get model and model score
     model, score = train_model(X, y)
     # Predict the value
     prediction = model.predict(np.array(features).reshape(1, -1))
 
     return prediction, score
+
+def predictSVM(X,y,features):
+    clf = make_pipeline(StandardScaler(), SVC(gamma='auto'))
+    clf.fit(X, y)
+    prediction = clf.predict([features])
+    return prediction
+
+def predictRandomF():
+    pass
+def predictKNN():
+    pass
+def predictADB():
+    pass

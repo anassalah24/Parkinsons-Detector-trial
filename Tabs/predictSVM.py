@@ -4,7 +4,9 @@
 import streamlit as st
 
 # Import necessary functions from web_functions
-from web_functions import predict
+from web_functions import predictTree , predictADB , predictKNN,predictSVM,predictRandomF
+
+
 
 
 def app(df, X, y):
@@ -17,7 +19,7 @@ def app(df, X, y):
     st.markdown(
         """
             <p style="font-size:25px">
-                This app uses <b style="color:green">Random Forest Classifier</b> for the Prediction of Parkinson's disease.
+                This app uses <b style="color:green">SVM Classifier</b> for the Prediction of Parkinson's disease.
             </p>
         """, unsafe_allow_html=True)
     with st.expander("View attribute details"):
@@ -62,7 +64,7 @@ spread1,spread2,PPE - Three nonlinear measures of fundamental frequency variatio
     # Create a button to predict
     if st.button("Predict"):
         # Get prediction and model score
-        prediction, score = predict(X, y, features)
+        prediction = predictSVM(X, y, features)# score removed
         st.success("Predicted Sucessfully")
 
         # Print the output according to the prediction
@@ -72,4 +74,4 @@ spread1,spread2,PPE - Three nonlinear measures of fundamental frequency variatio
             st.info("The person is safe from Parkinson's disease")
 
         # Print teh score of the model 
-        st.write("The model used is trusted by doctor and has an accuracy of ", (score*100),"%")
+        # st.write("The model used is trusted by doctor and has an accuracy of ", (score*100),"%")
