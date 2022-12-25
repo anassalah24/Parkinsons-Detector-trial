@@ -5,11 +5,14 @@ import numpy as np
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 import streamlit as st
-from sklearn.svm import SVC
-from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+#Import svm model
+from sklearn import svm
+# Import scikit-learn metrics module for accuracy calculation
 from sklearn import metrics
-from sklearn.pipeline import make_pipeline
-
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import AdaBoostClassifier
 @st.cache()
 def load_data():
     """This function returns the preprocessed data"""
@@ -57,14 +60,48 @@ def predictTree(X, y, features):
     return prediction, score
 
 def predictSVM(X,y,features):
-    clf = make_pipeline(StandardScaler(), SVC(gamma='auto'))
-    clf.fit(X, y)
+    # Split dataset into training set and test set
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3,random_state=109)  # 70% training and 30% test
+    clf = svm.SVC(C=1.0,gamma='scale',kernel='linear') # Linear Kernel
+    clf.fit(X_train, y_train)
+    y_pred = clf.predict(X_test)
+    score =  metrics.accuracy_score(y_test, y_pred)
     prediction = clf.predict([features])
-    return prediction
+    return prediction, score
 
-def predictRandomF():
-    pass
-def predictKNN():
-    pass
-def predictADB():
-    pass
+def predictRandomF(X,y,features):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)  # 70% training and 30% test
+    clf=RandomForestClassifier(n_estimators=100)
+    clf.fit(X_train, y_train)
+    y_pred = clf.predict(X_test)
+    score  = metrics.accuracy_score(y_test, y_pred)
+    prediction = clf.predict([features])
+    print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
+    return prediction , score
+
+def predictKNN(X,y,features):
+    res = train_test_split(X, y,train_size=0.8,test_size=0.2,random_state=1)
+    train_data, test_data, train_labels, test_labels = res
+    knn = KNeighborsClassifier(n_neighbors = 8)
+    knn.fit(train_data, train_labels)
+    y_predict = knn.predict(test_data)
+    prediction = knn.predict([features])
+    score = metrics.accuracy_score(test_labels, y_predict)
+    return prediction,score
+
+def predictADB(X,y,features):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)  # 70% training and 30% test
+    # Create adaboost classifer object
+    # svc = svm.SVC(probability=True, kernel='poly')
+
+
+    abc = AdaBoostClassifier(n_estimators=50,learning_rate=1)
+    # Train Adaboost Classifer
+    model = abc.fit(X_train, y_train)
+
+    # Predict the response for test dataset
+    y_pred = model.predict(X_test)
+    prediction  = model.predict([features])
+    score = metrics.accuracy_score(y_test, y_pred)
+    print("Accuracy:", metrics.accuracy_score(y_test, y_pred))
+    return prediction , score
