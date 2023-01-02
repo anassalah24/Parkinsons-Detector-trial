@@ -7,7 +7,7 @@ import streamlit as st
 from web_functions import predictTree , predictADB , predictKNN,predictSVM,predictRandomF
 
 
-def app(df, X, y):
+def app(df):
     """This function create the prediction page"""
 
     # Add title to the page
@@ -62,7 +62,7 @@ spread1,spread2,PPE - Three nonlinear measures of fundamental frequency variatio
     # Create a button to predict
     if st.button("Predict"):
         # Get prediction and model score
-        prediction, score = predictADB(X, y, features)
+        prediction, score = predictADB(features)
         st.success("Predicted Sucessfully")
 
         # Print the output according to the prediction

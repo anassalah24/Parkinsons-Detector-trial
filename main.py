@@ -38,11 +38,11 @@ st.sidebar.title("Navigation")
 page = st.sidebar.radio("Pages", list(Tabs.keys()))
 
 # Loading the dataset.
-df, X, y = load_data()
+df = load_data()
 
-# Call the app funciton of selected page to run
+# Call the app function of selected page to run
 if page in ["Decision Tree Prediction", "Visualisation" , "SVM Prediction" , "KNN Prediction" , "Random Forest Prediction", "Ada-boost Prediction" ]:
-    Tabs[page].app(df, X, y)
+    Tabs[page].app(df)
 elif (page == "Data Info"):
     Tabs[page].app(df)
 else:

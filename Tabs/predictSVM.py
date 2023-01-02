@@ -9,7 +9,7 @@ from web_functions import predictTree , predictADB , predictKNN,predictSVM,predi
 
 
 
-def app(df, X, y):
+def app(df):
     """This function create the prediction page"""
 
     # Add title to the page
@@ -64,7 +64,7 @@ spread1,spread2,PPE - Three nonlinear measures of fundamental frequency variatio
     # Create a button to predict
     if st.button("Predict"):
         # Get prediction and model score
-        prediction , score = predictSVM(X, y, features)# score removed
+        prediction , score = predictSVM(features)# score removed
         st.success("Predicted Sucessfully")
 
         # Print the output according to the prediction
