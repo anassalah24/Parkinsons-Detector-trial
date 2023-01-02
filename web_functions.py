@@ -167,7 +167,7 @@ def predictRandomF(features):
                        "MDVP:Shimmer", "Shimmer:DDA", "Shimmer:APQ3", "Shimmer:APQ5", "NHR", "HNR", "RPDE", "DFA", "D2",
                        "PPE"]]
         y_test = test['status']
-        clf = RandomForestClassifier(n_estimators=100)
+        clf = RandomForestClassifier(n_estimators=100, random_state=0)
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
         # Get the model score
